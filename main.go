@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"github.com/adjust/rmq"
 	"gopkg.in/urfave/cli.v2" // imports as package "cli"
 	"os"
 	"strings"
@@ -39,7 +39,8 @@ type task struct {
 }
 
 func main() {
-	fmt.Println(os.Getenv("REDIS_PORT"))
+	redisAddr := os.Getenv("REDIS_PORT_6379_TCP_ADDR")
+	redisPort := os.Getenv("REDIS_PORT_6379_TCP_PORT")
 	app := cli.NewApp()
 	app.Name = "tasks"
 	app.UsageText = "tasks run [taskname]"
@@ -56,6 +57,9 @@ func main() {
 			Action: func(c *cli.Context) error {
 				taskKey := strings.ToLower(c.Args().First())
 				if t, ok := tasks[taskKey]; ok {
+					connection := rmq.OpenConnection("redis", "tcp", redisAddr+":"+redisPort, 1)
+					taskQueue := connection.OpenQueue(t.read)
+					taskQueue.Publish("my published data")
 					t.task.(runnable).Run()
 				} else {
 					return cli.NewExitError("task does not exist", 4)
