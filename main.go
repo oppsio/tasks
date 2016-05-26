@@ -17,6 +17,8 @@ var tasks = make(map[string]task)
 // register the available tasks
 func register() {
 	tasks["fetch.site"] = fetchSite{}
+	tasks["fetch.page"] = fetchPage{}
+	tasks["parse.page"] = parsePage{}
 }
 
 func main() {
