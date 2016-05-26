@@ -29,7 +29,7 @@ func main() {
 	app.Usage = "The CLI for running Oppsio tasks"
 	app.Authors = []cli.Author{{Name: "Ricardo Rossi", Email: "ricardo@endata.com"}}
 	app.Version = "0.9.1"
-	app.Copyright = "© Oppsio 2016"
+	app.Copyright = "© Oppsio - 2016"
 
 	app.Commands = []cli.Command{
 		{
