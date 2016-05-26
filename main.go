@@ -1,9 +1,9 @@
 package main
 
 import (
-	"fmt"
 	"gopkg.in/urfave/cli.v2" // imports as package "cli"
 	"os"
+	"strings"
 )
 
 // all tasks must implement this interface
@@ -22,26 +22,29 @@ func register() {
 func main() {
 	register()
 	app := cli.NewApp()
-	app.Name = "oppsio"
-	app.UsageText = "oppsio --task [taskname]"
+	app.Name = "tasks"
+	app.UsageText = "tasks run [taskname]"
 	app.Usage = "The CLI for running Oppsio tasks"
+	app.Authors = []cli.Author{{Name: "Ricardo Rossi", Email: "ricardo@endata.com"}}
 	app.Version = "0.9.1"
 	app.Copyright = "© Oppsio 2016"
 
-	app.Flags = []cli.Flag{
-		cli.StringFlag{
-			Aliases: []string{"t"},
-			Name:    "task",
-			Usage:   "which task to run",
+	app.Commands = []cli.Command{
+		{
+			Name:    "run",
+			Aliases: []string{"r"},
+			Usage:   "the task to run",
+			Action: func(c *cli.Context) error {
+				taskName := strings.ToLower(c.Args().First())
+				if t, ok := tasks[taskName]; ok {
+					t.(task).Run()
+				} else {
+					return cli.NewExitError("task does not exist", 4)
+				}
+				return nil
+			},
 		},
-	}
-	app.Action = func(c *cli.Context) error {
-		fmt.Println("boom! I say!")
-		return nil
 	}
 
 	app.Run(os.Args)
-	// tasks["fetch.site"].(task).Run()
-	// cli.NewApp().Run(os.Args)
-	// fmt.Println(tasks["hhh"])
 }
