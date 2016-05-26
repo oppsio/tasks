@@ -7,10 +7,10 @@ import (
 	"github.com/adjust/redismq"
 )
 
-func main() {
-	// Produce("teams", "Boca Juniors")
-	Consume("teams")
-}
+// func main() {
+// 		Produce("teams", "Boca Juniors")
+// 	Consume("teams")
+// }
 
 func Produce(queueName string, payload string) {
 	queue := createQueue(queueName)
