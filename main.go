@@ -1,28 +1,45 @@
 package main
 
 import (
+	"fmt"
 	"gopkg.in/urfave/cli.v2" // imports as package "cli"
 	"os"
 	"strings"
 )
 
+// The list of available runnable tasks
+var tasks = map[string]task{
+	"fetch.site": task{
+		read:  "settings",
+		write: "links",
+		task:  fetchSite{},
+	},
+	"fetch.page": task{
+		read:  "links",
+		write: "pages",
+		task:  fetchPage{},
+	},
+	"fparse.page": task{
+		read:  "pages",
+		write: "jobs",
+		task:  parsePage{},
+	},
+}
+
 // all tasks must implement this interface
-type task interface {
+type runnable interface {
 	Run()
 }
 
-// a map of tasks to run
-var tasks = make(map[string]task)
-
-// register the available tasks
-func register() {
-	tasks["fetch.site"] = fetchSite{}
-	tasks["fetch.page"] = fetchPage{}
-	tasks["parse.page"] = parsePage{}
+// the task
+type task struct {
+	read  string
+	write string
+	task  runnable
 }
 
 func main() {
-	register()
+	fmt.Println(os.Getenv("REDIS_PORT"))
 	app := cli.NewApp()
 	app.Name = "tasks"
 	app.UsageText = "tasks run [taskname]"
@@ -37,9 +54,9 @@ func main() {
 			Aliases: []string{"r"},
 			Usage:   "the task to run",
 			Action: func(c *cli.Context) error {
-				taskName := strings.ToLower(c.Args().First())
-				if t, ok := tasks[taskName]; ok {
-					t.(task).Run()
+				taskKey := strings.ToLower(c.Args().First())
+				if t, ok := tasks[taskKey]; ok {
+					t.task.(runnable).Run()
 				} else {
 					return cli.NewExitError("task does not exist", 4)
 				}
