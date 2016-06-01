@@ -1,0 +1,27 @@
+{
+	"Site": {
+		"Page": "",
+		"StartUrl": "",
+		"BaseUrl": "",
+		"PagePattern": "",
+		"PageTrigger": "",
+		"PageSelector": "",
+		"PageSize": "",
+		"ItemPatternFrom": "",
+		"ItemPatternUntil": "",
+		"ItemLength": 0
+	},
+	"Selectors": {
+		"Code": "",
+		"Url": "",
+		"Title": "",
+		"Description": "",
+		"JobType": "",
+		"Travel": "",
+		"Salary": "",
+		"City": "",
+		"State": "",
+		"PostalCode": "",
+		"Country": ""
+	}
+}

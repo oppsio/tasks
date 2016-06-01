@@ -4,10 +4,16 @@ import (
 	"log"
 	"os"
 
+	"encoding/json"
 	"github.com/adjust/redismq"
 )
 
 func main() {
+	data, err := json.Marshal(&Settings{})
+	if err != nil {
+		log.Println(err)
+	}
+	log.Println(string(data))
 	// Produce("teams", "Boca Juniors")
 	// Consume("teams")
 }
