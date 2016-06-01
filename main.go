@@ -19,7 +19,7 @@ var tasks = map[string]task{
 		write: "pages",
 		task:  fetchPage{},
 	},
-	"fparse.page": task{
+	"parse.page": task{
 		read:  "pages",
 		write: "jobs",
 		task:  parsePage{},
@@ -27,7 +27,7 @@ var tasks = map[string]task{
 }
 
 // all tasks must implement this interface
-type runnable interface {
+type Runner interface {
 	Run()
 }
 
@@ -35,7 +35,7 @@ type runnable interface {
 type task struct {
 	read  string
 	write string
-	task  runnable
+	task  Runner
 }
 
 func main() {
@@ -55,7 +55,7 @@ func main() {
 			Action: func(c *cli.Context) error {
 				taskKey := strings.ToLower(c.Args().First())
 				if t, ok := tasks[taskKey]; ok {
-					t.task.(runnable).Run()
+					t.task.(Runner).Run()
 				} else {
 					return cli.NewExitError("task does not exist", 4)
 				}
