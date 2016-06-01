@@ -7,10 +7,10 @@ import (
 	"github.com/adjust/redismq"
 )
 
-// func main() {
-// 		Produce("teams", "Boca Juniors")
-// 	Consume("teams")
-// }
+func main() {
+	// Produce("teams", "Boca Juniors")
+	// Consume("teams")
+}
 
 func Produce(queueName string, payload string) {
 	queue := createQueue(queueName)
@@ -24,6 +24,7 @@ func Consume(queueName string) {
 	if err != nil {
 		os.Exit(0)
 	}
+
 	p, err := consumer.NoWaitGet()
 	if err != nil {
 		log.Println(err)
@@ -42,5 +43,11 @@ func Consume(queueName string) {
 func createQueue(queueName string) *redismq.Queue {
 	redisAddr := os.Getenv("REDIS_PORT_6379_TCP_ADDR")
 	redisPort := os.Getenv("REDIS_PORT_6379_TCP_PORT")
+	if redisAddr == "" {
+		redisAddr = "localhost"
+	}
+	if redisPort == "" {
+		redisPort = "6379"
+	}
 	return redismq.CreateQueue(redisAddr, redisPort, "", 9, queueName)
 }
