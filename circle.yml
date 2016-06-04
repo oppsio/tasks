@@ -1,8 +1,10 @@
 machine:
+  timezone:
+    America/Chicago
 
 deployment:
-  deploy:
-    branch: /.*/
+  production:
+    branch: master
     commands:
       - ./deploy.sh
 
