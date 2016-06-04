@@ -8,7 +8,7 @@ cp ~/$CIRCLE_PROJECT_REPONAME/$CIRCLE_PROJECT_REPONAME ~/releases/$CIRCLE_BRANCH
 cd ~/releases
 git add .
 git status
-COMMITMSG="Updating /$CIRCLE_BRANCH/$CIRCLE_PROJECT_REPONAME"
-echo $COMMITMSG
-git commit -m $COMMITMSG
-git push
+# COMMITMSG="Updating /$CIRCLE_BRANCH/$CIRCLE_PROJECT_REPONAME"
+# echo $COMMITMSG
+git commit -m "new release"
+git push -v --progress
