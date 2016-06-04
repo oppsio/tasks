@@ -1,8 +1,9 @@
 machine:
 
 deployment:
-  branch: /.*/
-  commands:
-    - ./deploy.sh
+  deploy:
+    branch: /.*/
+    commands:
+      - ./deploy.sh
 
   
