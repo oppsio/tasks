@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"gopkg.in/urfave/cli.v2" // imports as package "cli"
+	"github.com/oppsio/tasks/cli"
 	"os"
 	"strings"
 )
@@ -39,6 +39,7 @@ type task struct {
 }
 
 func main() {
+	// print()
 	app := cli.NewApp()
 	app.Name = "tasks"
 	app.UsageText = "tasks run [taskname]"

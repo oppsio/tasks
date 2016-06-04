@@ -5,22 +5,25 @@ import (
 	"os"
 
 	"encoding/json"
-	"github.com/adjust/redismq"
+	"github.com/oppsio/tasks/redismq"
 )
 
-func main() {
+func print() {
 	data, err := json.Marshal(&Settings{})
 	if err != nil {
 		log.Println(err)
 	}
 	log.Println(string(data))
-	// Produce("teams", "Boca Juniors")
-	// Consume("teams")
+	Produce("teams", "Boca Juniors")
+	Consume("teams")
 }
 
 func Produce(queueName string, payload string) {
 	queue := createQueue(queueName)
-	queue.Put(payload)
+	err := queue.Put(payload)
+	if err != nil {
+		log.Fatalln("Cannot connect to Redis")
+	}
 	log.Println("produced:", payload)
 }
 
@@ -39,7 +42,7 @@ func Consume(queueName string) {
 		os.Exit(0) // Nothing to consume
 	}
 	log.Println(p.CreatedAt)
-	log.Println(p.Payload)
+	log.Println("> " + p.Payload)
 	err = p.Ack()
 	if err != nil {
 		log.Println(err)
