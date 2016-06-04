@@ -10,5 +10,5 @@ git add .
 git status
 # COMMITMSG="Updating /$CIRCLE_BRANCH/$CIRCLE_PROJECT_REPONAME"
 # echo $COMMITMSG
-git commit -m "new release"
+git commit -v -m "new release"
 git push -v --progress
